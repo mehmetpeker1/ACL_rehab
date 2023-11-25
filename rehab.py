@@ -3,6 +3,9 @@ import time
 import mediapipe
 import PoseModule as pm
 from datetime import datetime
+import numpy as np
+import winsound
+
 
 cap = cv2.VideoCapture('SLR.mp4')
 pTime = 0
@@ -14,45 +17,72 @@ nSecond = 0
 elapsed_time = 0
 counter = 0
 
+
 while True:
     success, img = cap.read()
-    img = detector.findPose(img)
+    img = detector.findPose(img, False)
     lmList = detector.findPosition(img, draw=False)
     
-    try: 
-        print(lmList[28])
-        if not legLength:
-            legLength = lmList[28][1] - lmList[24][1]
-            raiseHeight = legLength/3
-            requiredHeight = lmList[24][2] - raiseHeight
-            
-        
-        if lmList[28][2] < requiredHeight and legLength:#stopped at this part, tricky
+    if len(lmList) != 0:
+        #------------------(p1, MIDPOINT, p2)
+        angle = detector.findAngle(img, 27, 24, 28)
+        per = np.interp(angle, (5, 20), (0, 100))
+        cv2.putText(img, str(int(per))+ '%',(lmList[24][1] + 60,lmList[24][2] + 90), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 2)
 
+    
+        if per == 100:
             if start_time == 0:
                 start_time = time.time()
 
             elapsed_time = time.time() - start_time
             print(elapsed_time)
-
-            
-
+        
         else:
             elapsed_time = 0
             start_time = 0
 
+        if int(elapsed_time) == duration:
+            print('yes yes yes')
+            winsound.Beep(440, 500)
+            counter += 0.5
+            #start_time = 0
+            #elapsed_time = 0
+            continue
+            
+
+
+    # try: 
+    #     print(lmList[28])
+    #     if not legLength:
+    #         legLength = lmList[28][1] - lmList[24][1]
+    #         raiseHeight = legLength/3
+    #         requiredHeight = lmList[24][2] - raiseHeight
+            
+        
+    #     if lmList[28][2] < requiredHeight and legLength:#stopped at this part, tricky
+
+    #         if start_time == 0:
+    #             start_time = time.time()
+
+    #         elapsed_time = time.time() - start_time
+    #         print(elapsed_time)
+
+        
+
+    #     else:
+    #         elapsed_time = 0
+    #         start_time = 0
+
         
         
-        cv2.putText(img, str(int(elapsed_time))+ 'sec',(50,70), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,255), 3)
-        cv2.putText(img, str(int(counter))+ 'rep',(500,70), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,255), 3)
 
-        cv2.circle(img, (lmList[28][1],lmList[28][2]), 15, (255,0,0), cv2.FILLED)
-    except:
-        pass
+    #     #cv2.circle(img, (lmList[28][1],lmList[28][2]), 15, (255,0,0), cv2.FILLED)
+    # except:
+    #     pass
 
-    if int(elapsed_time) == duration:
-        print('yes yes yes')
-        counter += 1
+    
+    cv2.putText(img, str(int(elapsed_time))+ 'sec',(50,70), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,255), 3)
+    cv2.putText(img, str(int(counter))+ 'rep',(500,70), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,255), 3)
 
     cTime = time.time()
     fps = 1/(cTime-pTime)
