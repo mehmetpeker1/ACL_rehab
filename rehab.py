@@ -13,13 +13,13 @@ duration = 3
 nSecond = 0
 elapsed_time = 0
 counter = 0
+
 while True:
     success, img = cap.read()
     img = detector.findPose(img)
     lmList = detector.findPosition(img, draw=False)
     
     try: 
-        startCounter = False
         print(lmList[28])
         if not legLength:
             legLength = lmList[28][1] - lmList[24][1]
@@ -35,10 +35,13 @@ while True:
             elapsed_time = time.time() - start_time
             print(elapsed_time)
 
+            
+
         else:
             elapsed_time = 0
             start_time = 0
-       
+
+        
         
         cv2.putText(img, str(int(elapsed_time))+ 'sec',(50,70), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,255), 3)
         cv2.putText(img, str(int(counter))+ 'rep',(500,70), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,255), 3)
@@ -47,6 +50,9 @@ while True:
     except:
         pass
 
+    if int(elapsed_time) == duration:
+        print('yes yes yes')
+        counter += 1
 
     cTime = time.time()
     fps = 1/(cTime-pTime)
