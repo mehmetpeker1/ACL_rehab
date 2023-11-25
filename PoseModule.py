@@ -1,6 +1,8 @@
 import cv2
 import mediapipe as mp
 import time
+from datetime import datetime
+
 
 class poseDetector():
 
@@ -43,28 +45,28 @@ class poseDetector():
         return lmList  
 
     
-def main():
-    cap = cv2.VideoCapture('SLR.mp4')
-    pTime = 0
-    detector = poseDetector()
+# def main():
+#     cap = cv2.VideoCapture('SLR.mp4')
+#     pTime = 0
+#     detector = poseDetector()
 
-    while True:
-        success, img = cap.read()
-        img = detector.findPose(img)
-        lmList = detector.findPosition(img, draw=False)
-        try:
-            print(lmList[28])
-            cv2.circle(img, (lmList[28][1],lmList[28][2]), 15, (255,0,0), cv2.FILLED)
-        except:
-            pass
+#     while True:
+#         success, img = cap.read()
+#         img = detector.findPose(img)
+#         lmList = detector.findPosition(img, draw=False)
+#         try:
+#             print(lmList[28])
+#             cv2.circle(img, (lmList[28][1],lmList[28][2]), 15, (255,0,0), cv2.FILLED)
+#         except:
+#             pass
 
-        cTime = time.time()
-        fps = 1/(cTime-pTime)
-        pTime = cTime
+#         cTime = time.time()
+#         fps = 1/(cTime-pTime)
+#         pTime = cTime
         
-        cv2.putText(img, str(int(fps)),(70,50), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,0), 3)
-        cv2.imshow("Image", img)
-        cv2.waitKey(1)
+#         cv2.putText(img, str(int(fps)),(70,50), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,0), 3)
+#         cv2.imshow("Image", img)
+#         cv2.waitKey(1)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
