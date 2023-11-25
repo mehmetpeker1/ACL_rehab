@@ -38,9 +38,7 @@ while True:
         else:
             elapsed_time = 0
             start_time = 0
-            counter = counter + 1
-
-        
+       
         
         cv2.putText(img, str(int(elapsed_time))+ 'sec',(50,70), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,255), 3)
         cv2.putText(img, str(int(counter))+ 'rep',(500,70), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,255), 3)
