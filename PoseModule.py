@@ -73,6 +73,61 @@ class poseDetector():
             cv2.putText(img, str(int(angle))+ 'deg',(x2 + 20,y2 + 50), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 2)
 
         return angle
+    
+    def pointsnRange(self, exer, orient):
+        if orient == 'R':
+            if exer == 1: # Front Straight Leg Raise
+                po1 = 27 
+                po2 = 24
+                po3 = 28
+                ran = (0, 20)
+
+            if exer == 2: # Inner Quadriceps Range
+                po1 = 24 
+                po2 = 26
+                po3 = 28
+                ran = (90, 165)         
+
+            if exer == 3: # Side Straight Leg Raise
+                po1 = 27 
+                po2 = 23
+                po3 = 28
+                ran = (0, 20)
+
+            if exer == 4: # Pronated Hip Extension
+                po1 = 27 
+                po2 = 23
+                po3 = 28
+                ran = (0, 20)
+
+        if orient == 'L':
+            if exer == 1: # Front Straight Leg Raise
+                po1 = 27 
+                po2 = 23
+                po3 = 28
+                ran = (0, 20)
+
+            if exer == 2: # Inner Quadriceps Range
+                po1 = 23 
+                po2 = 25
+                po3 = 27
+                ran = (90, 165)         
+
+            if exer == 3: # Side Straight Leg Raise
+                po1 = 27 
+                po2 = 24
+                po3 = 28
+                ran = (0, 20)
+
+            if exer == 4: # Pronated Hip Extension
+                po1 = 27 
+                po2 = 24
+                po3 = 28
+                ran = (0, 20)
+
+        return po1, po2, po3, ran
+
+
 
 
     

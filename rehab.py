@@ -5,14 +5,21 @@ import PoseModule as pm
 from datetime import datetime
 import numpy as np
 import winsound
+import argparse
 
+parser = argparse.ArgumentParser(description = "set up settings")
+parser.add_argument('--orientation', default = 'R', type=str,  help='R for Right leg, L for Left leg')
+parser.add_argument('--exercise', type = int, help = '1. Front Straight Leg Raise  2. Inner Quadriceps Range  3. Side Straight Leg Raise  4. Pronated Hip Extension')
+parser.add_argument('--duration', type = int )
 
-cap = cv2.VideoCapture('SLR.mp4')
+args = parser.parse_args()
+
+cap = cv2.VideoCapture('1.mp4')
 pTime = 0
 detector = pm.poseDetector()
 legLength = []
 start_time = 0
-duration = 3
+duration = args.duration
 nSecond = 0
 elapsed_time = 0
 counter = 0
@@ -25,8 +32,10 @@ while True:
     
     if len(lmList) != 0:
         #------------------(p1, MIDPOINT, p2)
-        angle = detector.findAngle(img, 27, 24, 28)
-        per = np.interp(angle, (5, 20), (0, 100))
+
+        p1, p2, p3, range = detector.pointsnRange(args.exercise, args.orientation)
+        angle = detector.findAngle(img, p1, p2, p3)
+        per = np.interp(angle, range, (0, 100))
         cv2.putText(img, str(int(per))+ '%',(lmList[24][1] + 60,lmList[24][2] + 90), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 2)
 
     
