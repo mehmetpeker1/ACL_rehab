@@ -58,6 +58,10 @@ class poseDetector():
         if angle < 0:
             angle = abs(angle)
 
+        if angle > 270:
+            angle = abs(angle-360)
+        
+
 
         # Draw
         if draw:
@@ -86,7 +90,7 @@ class poseDetector():
                 po1 = 24 
                 po2 = 26
                 po3 = 28
-                ran = (90, 165)         
+                ran = (150, 165)         
 
             if exer == 3: # Side Straight Leg Raise
                 po1 = 27 
@@ -111,7 +115,7 @@ class poseDetector():
                 po1 = 23 
                 po2 = 25
                 po3 = 27
-                ran = (90, 165)         
+                ran = (150, 165)         
 
             if exer == 3: # Side Straight Leg Raise
                 po1 = 27 

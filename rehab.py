@@ -14,7 +14,7 @@ parser.add_argument('--duration', type = int )
 
 args = parser.parse_args()
 
-cap = cv2.VideoCapture('1.mp4')
+cap = cv2.VideoCapture('RehabData/YiFan/L/4.mp4')
 pTime = 0
 detector = pm.poseDetector()
 legLength = []
